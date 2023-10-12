@@ -6,7 +6,10 @@ const Screen = ({ value }) => {
         width: 300,
         height: 70,
         textAlign: "right",
-        marginBottom: 10,
+        background: '#2C3E50',
+        padding: '20px',
+        color: 'white',
+        marginBottom: '10px'
       }}
     >
       {value}
