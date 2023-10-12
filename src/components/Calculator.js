@@ -10,7 +10,7 @@ const Calculator = () => {
   /** TODO: what happens when I click a number? */
   const handleNumberClick = (e) => {
     setCalc(prevState => {
-        return { current:  calc.current + e.target.textContent, operator: prevState.operator, tally: prevState.tally, display:calc.current + e.target.textContent};
+      return { current: calc.current + e.target.textContent, operator: prevState.operator, tally: prevState.tally, display: calc.current + e.target.textContent };
     });
 
   };
@@ -46,14 +46,14 @@ const Calculator = () => {
       if (clickedOp === 'clear') {
         return { current: '', operator: '', tally: 0, display: '0' };
       }
-      if (clickedOp === '='){
-        const newTally = calculateTally( prevState.operator, calc.tally , calc.current) || calc.current || calc.tally;
-        return { current:'', operator: '', tally: newTally, display: newTally };
+      if (clickedOp === '=') {
+        const newTally = calculateTally(prevState.operator, calc.tally, calc.current) || calc.current || calc.tally;
+        return { current: '', operator: '', tally: newTally, display: newTally };
       }
       // If there is a current value, and an operator, and a tally, then calculate the new tally.
       if (calc.current && clickedOp && calc.tally) {
         // Evaluate the current value and the tally.
-        const newTally = calculateTally( clickedOp, calc.tally , calc.current) || calc.current || calc.tally;
+        const newTally = calculateTally(clickedOp, calc.tally, calc.current) || calc.current || calc.tally;
         return { current: '', operator: clickedOp, tally: newTally, display: newTally };
       }
       else if (calc.current && clickedOp) {
@@ -66,8 +66,26 @@ const Calculator = () => {
 
   // Calculate the tally using string values of operator and operands.
   function calculateTally(operator, current, tally) {
-    if( !operator || !current || !tally) return current;
-    return eval(` ${current} ${operator} ${tally}`);
+    // Convert the string values to numbers.
+    current = parseFloat(current);
+    tally = parseFloat(tally);
+    if (!operator || !current || !tally) return current;
+    switch (operator) {
+      case '+':
+        return current + tally;
+      case '-':
+        return current - tally;
+      case '*':
+        return current * tally;
+      case '/':
+        if (tally !== 0) {
+          return current / tally;
+        } else {
+          return 0;
+        }
+      default:
+        return current;
+    }
   }
 
 
@@ -75,8 +93,7 @@ const Calculator = () => {
     <div>
       <Screen value={calc.display} />
       <div style={{ display: "flex", width: 'max-content', margin: '0 auto' }}>
-        <div style={{ display: "flex", flex: 5,width: "10rem", flexFlow: 'row wrap', flexDirection: 'row',  margin: '0 auto' }}>
-          <Number key='key-0' value={0} onClick={handleNumberClick} />
+        <div style={{ display: "flex", flex: 5, justifyContent:"space-around", width: "10rem", flexFlow: 'row wrap', flexDirection: 'row', margin: '0 auto' }}>
           <Number key='key-1' value={1} onClick={handleNumberClick} />
           <Number key='key-2' value={2} onClick={handleNumberClick} />
           <Number key='key-3' value={3} onClick={handleNumberClick} />
@@ -86,6 +103,7 @@ const Calculator = () => {
           <Number key='key-7' value={7} onClick={handleNumberClick} />
           <Number key='key-8' value={8} onClick={handleNumberClick} />
           <Number key='key-9' value={9} onClick={handleNumberClick} />
+          <Number key='key-0' value={0} onClick={handleNumberClick} />
         </div>
         <div style={{ paddingLeft: 10 }}>
           <Operation value="+" onClick={handleOperationClick} />
