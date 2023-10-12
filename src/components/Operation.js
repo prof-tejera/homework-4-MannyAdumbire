@@ -1,11 +1,18 @@
-const Operation = ({ value }) => {
+const Operation = ({ value, onClick }) => {
   /** TODO: What happens when a user clicks an Operation, what do we want to pass to our parent? */
   return (
     <div
+      onClick={onClick}
       style={{
-        padding: 10,
-        border: "1px solid black",
-        width: 60,
+          background: 'linear-gradient(180deg, #0000FF 0%, #FFFFFF 100%)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '1rem',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          fontSize: '1.5em',
+          borderRadius: '.5rem .5rem .5rem .5rem '
       }}
     >
       {value}
